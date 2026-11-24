@@ -1,0 +1,61 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <h1><%= t("auth.register_title") %></h1>
+
+    <%= form_with model: @user, url: register_path do |f| %>
+      <% if @user.errors.any? %>
+        <div class="flash err">
+          <strong><%= t("common.fix_errors") %></strong>
+          <ul>
+            <% @user.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <label><%= t("auth.name") %></label>
+      <div class="field">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <%= f.text_field :name %>
+      </div>
+
+      <label><%= t("auth.email_required") %></label>
+      <div class="field">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+        <%= f.email_field :email %>
+      </div>
+
+      <label><%= t("auth.password_hint") %></label>
+      <div class="field">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <%= f.password_field :password %>
+      </div>
+
+      <label><%= t("auth.confirm") %></label>
+      <div class="field">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <%= f.password_field :password_confirmation %>
+      </div>
+
+      <%= f.submit t("auth.register_submit"), class: "wide" %>
+    <% end %>
+
+    <p class="auth-switch"><%= t("auth.have_account") %> <%= link_to t("auth.login_link"), login_path %></p>
+  </div>
+
+  <div class="auth-art" aria-hidden="true">
+    <span class="hx-blob b1"></span><span class="hx-blob b2"></span>
+    <svg viewBox="0 0 220 260" class="hx-washer">
+      <rect x="10" y="10" width="200" height="240" rx="30" fill="#fff"/>
+      <rect x="30" y="30" width="64" height="14" rx="7" fill="#89B8C4"/>
+      <circle cx="172" cy="37" r="9" fill="#FCAFC1"/>
+      <circle cx="110" cy="152" r="68" fill="#3D7584"/>
+      <circle cx="110" cy="152" r="54" fill="#89B8C4"/>
+      <circle class="bub b1" cx="92" cy="140" r="12" fill="#fff" opacity=".75"/>
+      <circle class="bub b2" cx="128" cy="168" r="9" fill="#FCAFC1"/>
+    </svg>
+    <h2><%= t("auth_page.register_tagline") %></h2>
+    <p><%= t("auth_page.register_text") %></p>
+  </div>
+</div>

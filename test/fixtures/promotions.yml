@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  kind: MyString
+  description: MyText
+  conditions: MyText
+  image_url: MyString
+  discount_percent: 1
+  starts_at: 2026-11-21 19:38:53
+  ends_at: 2026-11-21 19:38:53
+  active: false
+
+two:
+  title: MyString
+  kind: MyString
+  description: MyText
+  conditions: MyText
+  image_url: MyString
+  discount_percent: 1
+  starts_at: 2026-11-21 19:38:53
+  ends_at: 2026-11-21 19:38:53
+  active: false

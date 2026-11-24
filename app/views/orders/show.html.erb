@@ -1,0 +1,53 @@
+<%= render "shared/steps", current: 3 %>
+
+<% label = Order.statuses[@order.status].to_s %>
+<% tone = case label when /Скас/ then "bad" when /Викон|Достав|Завер/ then "good" else "mid" end %>
+
+<section class="thanks">
+  <div class="thanks-icon">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <div>
+    <h1><%= t("order_page.thanks") %></h1>
+    <p><%= t("orders.show.accepted") %> <strong>№<%= @order.id %></strong></p>
+  </div>
+  <span class="status <%= tone %>"><%= opt(label) %></span>
+</section>
+
+<div class="order-cols">
+  <div class="panel">
+    <h2><%= t("order_page.info") %></h2>
+    <dl class="info-list">
+      <div><dt><%= t("orders.show.recipient") %></dt><dd><%= @order.customer_name %>, <%= @order.phone %></dd></div>
+      <div><dt><%= t("orders.show.address") %></dt><dd><%= @order.address %></dd></div>
+      <% if @order.gift_recipient_name.present? %>
+        <div><dt><%= t("orders.show.recipient_gift") %></dt><dd><%= @order.gift_recipient_name %>, <%= @order.gift_recipient_phone %></dd></div>
+      <% end %>
+      <div><dt><%= t("orders.show.delivery") %></dt><dd><%= opt(@order.delivery) %></dd></div>
+      <div><dt><%= t("orders.show.payment") %></dt><dd><%= opt(@order.payment) %></dd></div>
+    </dl>
+  </div>
+
+  <div class="panel">
+    <h2><%= t("order_page.items") %></h2>
+    <ul class="order-lines">
+      <% @order.order_items.includes(:product).each do |item| %>
+        <li>
+          <% if item.product.image_url.present? %>
+            <img class="order-thumb" src="<%= item.product.image_url %>" alt="">
+          <% else %>
+            <span class="order-thumb empty"></span>
+          <% end %>
+          <span class="sum-name">
+            <%= item.product.name %>
+            <span class="muted-text"><%= money(item.unit_price) %> × <%= item.quantity %></span>
+          </span>
+          <strong><%= money(item.unit_price * item.quantity) %></strong>
+        </li>
+      <% end %>
+    </ul>
+    <div class="sum-row total-row"><span><%= t("orders.show.total") %></span><strong><%= money(@order.total) %></strong></div>
+  </div>
+</div>
+
+<%= link_to t("common.back_to_catalog"), products_path, class: "hx-btn" %>

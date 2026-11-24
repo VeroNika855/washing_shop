@@ -1,0 +1,36 @@
+<%= render "admin/nav" %>
+<h1>Замовлення №<%= @order.id %></h1>
+
+<div class="checkout-form">
+  <p>Дата: <%= @order.created_at.strftime("%d.%m.%Y %H:%M") %></p>
+  <p>Покупець: <%= @order.customer_name %>, <%= @order.phone %></p>
+  <p>Пошта: <%= @order.email.presence || "не вказано" %></p>
+  <p>Адреса: <%= @order.address %></p>
+  <p>Доставка: <%= @order.delivery %>. Оплата: <%= @order.payment %></p>
+
+  <%= form_with model: [:admin, @order], class: "qty-form" do |f| %>
+    <label>Статус:</label>
+    <%= f.select :status, Order.statuses.map { |key, label| [label, key] }, selected: @order.status %>
+    <%= f.submit "Змінити статус" %>
+  <% end %>
+</div>
+
+<br>
+<table class="cart-table">
+  <thead>
+    <tr><th>Товар</th><th>Ціна</th><th>Кількість</th><th>Сума</th></tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= number_with_delimiter(item.unit_price.to_i, delimiter: " ") %> грн</td>
+        <td><%= item.quantity %></td>
+        <td><%= number_with_delimiter((item.unit_price * item.quantity).to_i, delimiter: " ") %> грн</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p class="total">Разом: <%= number_with_delimiter(@order.total.to_i, delimiter: " ") %> грн</p>
+<%= link_to "← До списку замовлень", admin_orders_path %>

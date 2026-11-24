@@ -1,0 +1,15 @@
+<section class="grid-ad">
+  <div class="grid-ad-copy">
+    <h2><%= t("blackfriday.title") %></h2>
+    <p><%= t("blackfriday.text") %></p>
+
+    <div class="bf-timer" data-countdown="2026-11-30T23:59:59+02:00">
+      <div><b data-unit="days">00</b><small><%= t("blackfriday.days") %></small></div>
+      <div><b data-unit="hours">00</b><small><%= t("blackfriday.hours") %></small></div>
+      <div><b data-unit="minutes">00</b><small><%= t("blackfriday.minutes") %></small></div>
+      <div><b data-unit="seconds">00</b><small><%= t("blackfriday.seconds") %></small></div>
+    </div>
+
+    <%= link_to t("blackfriday.btn"), promotions_path, class: "hx-btn" %>
+  </div>
+</section>

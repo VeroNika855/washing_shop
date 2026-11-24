@@ -1,0 +1,56 @@
+<div class="checkout-form admin-box">
+  <%= form_with model: [:admin, product] do |f| %>
+    <% if product.errors.any? %>
+      <div class="flash err">
+        <strong>Виправте помилки:</strong>
+        <ul>
+          <% product.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <label>Назва *</label>
+    <%= f.text_field :name %>
+
+    <label>Виробник *</label>
+    <%= f.text_field :manufacturer %>
+
+    <label>Модель</label>
+    <%= f.text_field :model_number %>
+
+    <label>Опис</label>
+    <%= f.text_area :description %>
+
+    <label>Ціна, грн *</label>
+    <%= f.number_field :price, step: 0.01, min: 0 %>
+
+    <label>Залишок, шт *</label>
+    <%= f.number_field :stock, min: 0 %>
+
+    <label>Тип завантаження</label>
+    <%= f.select :load_type, %w[Фронтальне Вертикальне], include_blank: "—" %>
+
+    <label>Місткість, кг</label>
+    <%= f.number_field :capacity, step: 0.1, min: 0 %>
+
+    <label>Швидкість віджимання, об/хв</label>
+    <%= f.number_field :spin_speed, min: 0 %>
+
+    <label>Клас енергоефективності</label>
+    <%= f.select :energy_class, %w[A B C D E F G], include_blank: "—" %>
+
+
+        <label>Зображення (посилання або шлях)</label>
+    <%= f.text_field :image_url, placeholder: "https://... або /images/washers/model.jpg" %>
+    
+    <div class="checkbox-row">
+      <%= f.check_box :active %>
+      <%= f.label :active, "Показувати в каталозі" %>
+    </div>
+
+    <%= f.submit "Зберегти" %>
+    <%= link_to "Скасувати", admin_products_path, class: "reset" %>
+  <% end %>
+</div>

@@ -1,0 +1,10 @@
+<% pending = CallbackRequest.pending.count %>
+<nav class="admin-nav">
+  <%= link_to "Огляд", admin_root_path, class: ("active" if request.path == admin_root_path) %>
+  <%= link_to "Товари", admin_products_path, class: ("active" if request.path.start_with?(admin_products_path)) %>
+  <%= link_to "Акції", admin_promotions_path, class: ("active" if request.path.start_with?(admin_promotions_path)) %>
+  <%= link_to "Замовлення", admin_orders_path, class: ("active" if request.path.start_with?(admin_orders_path)) %>
+  <%= link_to admin_callback_requests_path, class: ("active" if request.path.start_with?(admin_callback_requests_path)) do %>
+    Дзвінки<% if pending > 0 %> <span class="count-badge"><%= pending %></span><% end %>
+  <% end %>
+</nav>

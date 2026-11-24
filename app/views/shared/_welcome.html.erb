@@ -1,0 +1,8 @@
+<dialog id="welcome-dialog" class="promo-dialog welcome">
+  <h2><%= t("ads.welcome_title") %></h2>
+  <p><%= t("ads.welcome_text") %></p>
+  <div class="actions" style="justify-content: center;">
+    <%= link_to t("ads.welcome_btn"), promotions_path, class: "hx-btn" %>
+    <button type="button" class="secondary" data-dialog-close><%= t("ads.welcome_close") %></button>
+  </div>
+</dialog>

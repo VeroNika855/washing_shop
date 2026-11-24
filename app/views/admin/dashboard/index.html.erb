@@ -1,0 +1,99 @@
+<%= render "admin/nav" %>
+<h1>Огляд магазину</h1>
+
+<section class="dash-tiles">
+  <div class="dash-tile ink">
+    <span>Виручка за 7 днів</span>
+    <strong><%= money(@revenue_week) %></strong>
+  </div>
+  <div class="dash-tile">
+    <span>Замовлень сьогодні</span>
+    <strong><%= @orders_today %></strong>
+  </div>
+  <div class="dash-tile">
+    <span>Замовлень за 7 днів</span>
+    <strong><%= @orders_week %></strong>
+  </div>
+  <%= link_to admin_callback_requests_path, class: "dash-tile pink" do %>
+    <span>Нові заявки на дзвінок</span>
+    <strong><%= @pending_calls %></strong>
+  <% end %>
+  <div class="dash-tile">
+    <span>Виручка за весь час</span>
+    <strong><%= money(@revenue_total) %></strong>
+  </div>
+</section>
+
+<section class="dash-cols">
+  <div class="panel">
+    <h2>Виручка за тиждень</h2>
+    <div class="bars">
+      <% @chart.each do |day, value| %>
+        <div class="bar">
+          <span class="bar-value"><%= value > 0 ? number_with_delimiter(value, delimiter: " ") : "" %></span>
+          <div class="bar-fill" style="height: <%= [(value * 100.0 / @chart_max).round, 3].max %>%"></div>
+          <span class="bar-label"><%= day.strftime("%d.%m") %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Топ товарів</h2>
+    <% if @top_products.empty? %>
+      <p class="muted-text">Поки немає продажів.</p>
+    <% else %>
+      <ol class="top-list">
+        <% @top_products.each do |product, qty| %>
+          <li>
+            <% if product.image_url.present? %>
+              <img class="order-thumb" src="<%= product.image_url %>" alt="">
+            <% else %>
+              <span class="order-thumb empty"></span>
+            <% end %>
+            <span class="order-item-name"><%= product.name %></span>
+            <span class="tag on"><%= qty %> шт.</span>
+          </li>
+        <% end %>
+      </ol>
+    <% end %>
+  </div>
+</section>
+
+<section class="dash-cols">
+  <div class="panel">
+    <h2>Закінчується на складі</h2>
+    <% if @low_stock.empty? %>
+      <p class="muted-text">Усе в достатній кількості.</p>
+    <% else %>
+      <ul class="top-list">
+        <% @low_stock.each do |product| %>
+          <li>
+            <span class="order-item-name"><%= link_to product.name, edit_admin_product_path(product) %></span>
+            <span class="tag <%= 'danger' if product.stock.to_i.zero? %>">залишок: <%= product.stock %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+
+  <div class="panel">
+    <h2>Останні замовлення</h2>
+    <% if @recent_orders.empty? %>
+      <p class="muted-text">Замовлень поки немає.</p>
+    <% else %>
+      <ul class="top-list">
+        <% @recent_orders.each do |order| %>
+          <% label = Order.statuses[order.status].to_s %>
+          <% tone = case label when /Скас/ then "bad" when /Викон|Достав|Завер/ then "good" else "mid" end %>
+          <li>
+            <%= link_to "№#{order.id}", admin_order_path(order) %>
+            <span class="muted-text"><%= order.created_at.strftime("%d.%m %H:%M") %></span>
+            <span class="status <%= tone %>"><%= label %></span>
+            <strong class="push-right"><%= money(order.total) %></strong>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+</section>

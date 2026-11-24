@@ -1,0 +1,473 @@
+---
+en:
+  account_page:
+    stat_orders: Orders
+    stat_favorites: Favorites
+    stat_cart: In cart
+    tile_favorites: Favorites
+    tile_cart: Cart
+    tile_promos: Promotions
+    tile_catalog: Catalog
+    open: Open
+    more_items:
+      one: and %{count} more item
+      other: and %{count} more items
+  ads:
+    announce_text: Black Friday until November 30 · Free delivery from 10,000 UAH
+    announce_link: See deals
+    ship_left: Add %{amount} UAH more for free delivery
+    ship_free: Congrats! Delivery is free
+    side_title: Trade-in
+    side_text: Hand in your old washer and get a discount on a new one
+    side_btn: Learn more
+    alt_title: Trade-in
+    alt_text: Hand in your old washing machine and get a discount on a new one
+    alt_btn: How it works
+    popular_title: You may like
+    welcome_title: Black Friday!
+    welcome_text: Up to 40% off selected washing machines. The sale runs until November 30.
+    welcome_btn: See deals
+    welcome_close: Later
+  blackfriday:
+    title: Black Friday
+    text: Up to 40% off selected models
+    btn: See deals
+    days: d
+    hours: h
+    minutes: m
+    seconds: s
+  cart_quick:
+    added: Added to cart
+    out_of_stock: This item is out of stock
+  checkout_steps:
+    cart: Cart
+    details: Checkout
+    done: Done
+  cart_page:
+    summary: Summary
+    items: Items
+  checkout_page:
+    sec_contacts: Contacts
+    sec_delivery: Delivery
+    sec_gift: Gift recipient
+    sec_payment: Payment
+    your_order: Your order
+  order_page:
+    thanks: Thank you for your order!
+    info: Delivery and payment
+    items: Order items
+  auth_page:
+    login_tagline: Welcome back!
+    login_text: Log in to see your order history, favorites and check out faster.
+    register_tagline: Join us!
+    register_text: 'Create an account: save favorites, leave reviews and track your orders.'
+  title: Washing machine online store
+  footer: "© 2026 Washing machine online store"
+  errors:
+    messages:
+      phone_format: must contain at least 10 digits
+      email_format: has an invalid format
+      choose: must be selected
+      password_too_short: must be at least 6 characters long
+      password_mismatch: does not match the password
+  options:
+    Нова пошта: Nova Poshta
+    Кур'єр: Courier
+    Самовивіз: Pickup
+    Оплата при отриманні: Cash on delivery
+    Переказ на картку: Card transfer
+    Фронтальне: Front-loading
+    Вертикальне: Top-loading
+    Нове: New
+    Підтверджене: Confirmed
+    Відправлене: Shipped
+    Виконане: Completed
+    Скасоване: Canceled
+    Знижки: Discounts
+    Кешбеки: Cashback
+    Подарунки: Gifts
+    Гарантія та сервіс: Warranty & service
+    Розіграші: Giveaways
+  header:
+    store_name: Washing machines
+    promotions: Promotions
+    gift_cards: Gift cards
+    delivery: Delivery
+    returns: Returns
+    trade_in: Trade-In
+    help: Help
+    admin: Admin panel
+    catalog: Catalog
+    search_placeholder: Name or model
+    search: Search
+    login: Log in
+    cart: Cart
+    logout: Log out
+    favorites: Favorites
+  common:
+    currency: UAH
+    back_to_catalog: "← Back to catalog"
+    fix_errors: 'Please fix the errors:'
+  flash:
+    cart_added: Item added to the cart.
+    cart_removed: Item removed from the cart.
+    out_of_stock: This item is out of stock.
+    cart_empty: Your cart is empty.
+    qty_changed: The quantity of some items has changed. Please check your cart.
+    order_not_found: Order not found.
+    order_failed: Could not save the order. Please try again.
+    registered: Registration successful. Welcome!
+    register_failed: Temporary error. Please try to register later.
+    logged_in: You have logged in.
+    bad_login: Incorrect email or password.
+    logged_out: You have logged out.
+    forbidden: Access denied.
+    gift_recipient_required: Please enter the full name and phone of the certificate recipient.
+    gift_invalid: Please choose a certificate amount.
+    callback_sent: Thank you! We will call you back shortly.
+  catalog:
+    title: Washing machine catalog
+    filters: Filters
+    manufacturer: Manufacturer
+    all: All
+    load_type: Load type
+    any_m: Any
+    any_n: Any
+    price: Price, UAH
+    from: from
+    to: to
+    spin_from: Spin speed (from, rpm)
+    energy_class: Energy efficiency class
+    sort: Sort by
+    sort_asc: Cheapest first
+    sort_desc: Most expensive first
+    apply: Apply
+    reset: Reset
+    nothing_found: Nothing found. Change the search parameters or reset the filters.
+    photo: Photo
+    in_stock: In stock
+    out_of_stock: Out of stock
+    add_to_cart: Add to cart
+    load_chip: "%{type}"
+    show_more: Show more
+    products_count:
+      one: "%{count} product"
+      other: "%{count} products"
+  product:
+    manufacturer: 'Manufacturer:'
+    model: 'Model:'
+    load_type: 'Load type:'
+    capacity: 'Capacity:'
+    capacity_unit: kg
+    spin: 'Spin speed:'
+    spin_unit: rpm
+    energy: 'Energy efficiency class:'
+    price: 'Price:'
+    add_to_cart: Add to cart
+    back: "← Back to catalog"
+    pg_home: Home
+    pg_catalog: Catalog
+    pg_specs: Specifications
+    pg_description: Description
+    pg_manufacturer: Brand
+    pg_model: Model
+    pg_load_type: Load type
+    pg_capacity: Capacity
+    pg_capacity_value: up to %{value} kg
+    pg_spin: Spin speed
+    pg_spin_value: "%{value} rpm"
+    pg_energy: Energy class
+    pg_in_stock: In stock
+    pg_left: "%{count} left"
+    pg_out_of_stock: Out of stock
+    pg_add: Add to cart
+    pg_warranty: Warranty
+    pg_warranty_text: 12 months from the manufacturer
+    pg_delivery: Delivery
+    pg_delivery_text: 1–3 days across Ukraine
+    pg_returns: Returns
+    pg_returns_text: 14 days to exchange or return
+    related_title: Similar products
+    recent_title: Recently viewed
+  cart:
+    title: Cart
+    empty: Your cart is empty.
+    go_catalog: "← Go to catalog"
+    product: Product
+    price: Price
+    quantity: Quantity
+    sum: Total
+    change: Update
+    remove: Remove
+    total: 'Total:'
+    checkout: Checkout
+    continue: "← Continue shopping"
+  orders:
+    new:
+      title: Checkout
+      name: Full name *
+      phone: Phone *
+      phone_placeholder: "+380 ..."
+      email: Email
+      address: Delivery address *
+      address_placeholder: City, street, building / branch
+      delivery: Delivery method *
+      payment: Payment method *
+      choose: Select...
+      submit: Confirm order
+      summary: Your order
+      total: 'Total:'
+      back_to_cart: "← Back to cart"
+      gift_name: Certificate recipient's full name *
+      gift_phone: Recipient's phone *
+    show:
+      title: Thank you for your order!
+      accepted: 'Your order has been received. Order number:'
+      status: 'Status:'
+      recipient: 'Recipient:'
+      recipient_gift: 'Certificate recipient:'
+      address: 'Address:'
+      delivery: 'Delivery:'
+      payment: 'Payment:'
+      product: Product
+      price: Price
+      quantity: Quantity
+      sum: Total
+      total: 'Total:'
+  account:
+    title: My account
+    email: 'Email:'
+    admin_badge: Administrator
+    admin_products: Manage products
+    admin_promotions: Manage promotions
+    admin_orders: Manage orders
+    my_orders: My orders
+    no_orders: No orders yet.
+    date: Date
+    status: Status
+    sum: Total
+    guest_text: Log in or register to view your order history. You can also place an order without registering.
+    login: Log in
+    register: Register
+  auth:
+    register_title: Registration
+    name: Full name *
+    email_required: Email *
+    password_hint: Password * (at least 6 characters)
+    confirm: Repeat password *
+    register_submit: Register
+    have_account: Already have an account?
+    login_link: Log in
+    login_title: Log in
+    email: Email
+    password: Password
+    login_submit: Log in
+    no_account: Don't have an account?
+    register_link: Register
+  errors_pages:
+    not_found_title: Page not found
+    not_found_text: There is no such page or product. The product may be hidden.
+    unavailable_title: Temporary error
+    unavailable_text: The service is temporarily unavailable. Your data is safe, please try again in a few minutes.
+    retry: Try again
+  pages:
+    demo_notice: This feature is planned for future versions of the store.
+    akcii:
+      title: Promotions
+      body:
+      - Discounts and special offers on washing machines will appear here.
+      - There are no active promotions yet.
+    podarunkovi_kartky:
+      title: Gift cards
+      body:
+      - A gift card lets your loved ones choose their own appliance.
+    dostavka:
+      title: Delivery
+      body:
+      - 'Available delivery methods: Nova Poshta, courier and pickup. The method is selected during checkout.'
+      - Delivery cost and time are confirmed by a manager after the order is approved.
+      - 'Payment: cash on delivery or card transfer.'
+    povernennia:
+      title: Returns
+      body:
+      - 'If the product does not suit you or has a defect, contact us: requests are handled in accordance with consumer protection law.'
+      - Keep the packaging, documents and all components. Please state the order number in your request.
+      - Warranty obligations follow the manufacturer's warranty card.
+    trade_in:
+      title: Trade-In
+      body:
+      - 'Trade-In: exchange your old appliance for a discount on a new one.'
+    dopomoha:
+      title: Help
+      body:
+      - 'We will help you choose a washing machine by its specifications: load type, capacity, spin speed, energy efficiency class.'
+      - For order questions please state the order number. Order history is available in your account.
+      - 'Support email: support@washing.shop (demo address).'
+  promotions:
+    title: Promotions
+    all: All
+    sort_new: Newest first
+    sort_ending: Ending soon
+    empty: There are no active promotions right now.
+    conditions: Promotion terms
+    valid_until: 'Valid until:'
+    until_end: 'Time left:'
+    days: days
+    hours: hours
+    minutes: minutes
+    seconds: seconds
+    ended: This promotion has ended.
+    products_title: Participating products
+    back: "← All promotions"
+    days_left:
+      one: "%{count} day left"
+      other: "%{count} days left"
+  gift:
+    title: Gift cards
+    product_name: Electronic gift certificate
+    delivery_viber: Viber delivery
+    delivery_sms: SMS delivery
+    specs: Specifications
+    kind: 'Type:'
+    kind_value: Electronic
+    nominal_label: 'Amount:'
+    validity: 'Validity:'
+    validity_value: 365 days from activation
+    brand: 'Brand:'
+    choose_nominal: Amount
+    how_title: How to receive
+    step1: During checkout, enter the full name and phone number of the person who will receive the certificate. 1 order = 1 certificate.
+    step1_note: Another person will receive it
+    step2: After the order is confirmed, a link to the certificate with its number and barcode will be sent to that number via Viber/SMS.
+    step2_note: Keep your gift card number
+    demo_note: In the demo version of the store, sending messages is not implemented.
+    buy: Buy
+    card_label: eCard
+  callback:
+    title: Call me back
+    text: Leave your phone number and our manager will contact you to help with choosing a washing machine or with your order.
+    name: Name (optional)
+    phone: Phone *
+    submit: Call me back
+    cancel: Cancel
+  favorites:
+    title: Favorites
+    add: Add to favorites
+    remove: Remove from favorites
+    empty: You haven't added anything to favorites yet.
+    to_catalog: Go to catalog
+    login_required: Log in to save favorites.
+  site_footer:
+    b_delivery_t: Delivery
+    b_delivery: 'Across Ukraine: Nova Poshta, courier, pickup'
+    b_warranty_t: Warranty
+    b_warranty: Certified appliances with official manufacturer warranty
+    b_payment_t: Payment
+    b_payment: Online by card, cash or bank transfer
+    b_returns_t: Returns
+    b_returns: 14 days to return or exchange
+    help_title: Need help?
+    help_text: Leave your number and we will call you back and help you choose.
+    help_btn: Call me back
+    col_store: Store
+    col_buyers: For customers
+    col_account: My account
+    col_consult: Consultation
+    about: About us
+    contacts: Contacts
+    catalog: Product catalog
+    promos: Promotions
+    gifts: Gift cards
+    delivery: Delivery
+    payment: Payment
+    warranty: Warranty
+    returns: Returns and exchange
+    trade_in: Trade-In
+    account: My account
+    login: Log in
+    favorites: Favorites
+    cart: Cart
+    phone_note: Free across Ukraine
+    hours: Daily 08:00–21:00
+  info:
+    about:
+      title: About us
+      body: |-
+        We are an online store for washing machines. We help you choose appliances for your home and offer fair prices, fast delivery and after-sales support.
+
+        Our range includes over a hundred models from leading brands.
+    contacts:
+      title: Contacts
+      body: |-
+        Phone: 0-800-000-000 (free across Ukraine).
+
+        Email: info@example.com.
+
+        Opening hours: daily from 08:00 to 21:00.
+    delivery:
+      title: Delivery
+      body: |-
+        We deliver across Ukraine by Nova Poshta, courier and to pickup points.
+
+        Delivery takes 1–3 days. Orders over 10,000 UAH ship free.
+
+        The courier calls you before delivery and helps carry the appliance into your home.
+    payment:
+      title: Payment
+      body: |-
+        You can pay online by card, by cash or card on delivery, or by bank transfer for companies.
+
+        0% installments up to 12 months are available for most models.
+    warranty:
+      title: Warranty
+      body: |-
+        All appliances are certified and come with an official 12-month manufacturer warranty.
+
+        If something goes wrong, contact us and we will arrange diagnostics or a replacement.
+    returns:
+      title: Returns and exchange
+      body: |-
+        You can return or exchange an item within 14 days of purchase in accordance with the law.
+
+        The item must keep its appearance, accessories and packaging.
+    trade_in:
+      title: Trade-In
+      body: |-
+        Hand in your old washing machine and get a discount on a new one.
+
+        The discount depends on the condition and age of the old appliance. The courier will assess it on delivery.
+  home:
+    tag: New collection 2026
+    title: Fresh laundry, zero effort
+    text: Over a hundred washing machines from top brands. Warranty, fast delivery and great deals.
+    btn_promos: See promotions
+    btn_gift: Gift cards
+    card_sale: on selected models
+    card_credit: installments
+    ticker1: Free delivery from 10,000 UAH
+    ticker2: 12-month warranty
+    ticker3: 'Trade-in: bring the old one, get a discount'
+    ticker4: 0% installments
+    ad1_title: Trade-in
+    ad1_text: Hand in your old washer and get a discount on a new one
+    ad2_title: 0%
+    ad2_text: Installments up to 12 months, no extra cost
+    ad3_title: Delivery
+    ad3_text: Free across Ukraine from 10,000 UAH
+    wide_title: A gift that always fits
+    wide_text: Digital certificate from 100 to 20,000 UAH. Delivered right after payment.
+    wide_btn: Choose a certificate
+  reviews:
+    title: Reviews
+    write: Write a review
+    edit_yours: Your review
+    placeholder: Tell us about your experience (optional)
+    submit: Submit
+    empty: No reviews yet. Be the first!
+    verified: Buyer
+    delete: Delete
+    confirm_delete: Delete this review?
+    saved: Thanks for your review!
+    deleted: Review deleted.
+    invalid: Please choose a rating from 1 to 5 stars.
+    login_required: Log in to leave a review.

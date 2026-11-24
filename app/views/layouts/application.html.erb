@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <title><%= t("title") %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta name="image-manifest" content="<%= image_manifest.to_json %>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <%= render "shared/announce" %>
+    <header class="site-header">
+      <div class="topbar">
+        <div class="topbar-inner">
+          <div class="lang-switch">
+            <%= locale_link("uk", "УКР") %>
+            <%= locale_link("en", "ENG") %>
+          </div>
+          <nav class="topnav">
+            <%= link_to t("header.promotions"), promotions_path %>
+            <%= link_to t("header.gift_cards"), gift_cards_path %>
+            <%= link_to t("header.help"), page_path("dopomoha"), data: { open_callback: true } %>
+            <% if admin? %>
+              <% pending = CallbackRequest.pending.count %>
+              <%= link_to admin_root_path do %>
+                <%= t("header.admin") %><% if pending > 0 %> <span class="count-badge"><%= pending %></span><% end %>
+              <% end %>
+            <% end %>
+          </nav>
+        </div>
+      </div>
+
+      <div class="mainbar">
+        <%= link_to t("header.store_name"), root_path, class: "logo" %>
+
+        <%= link_to products_path, class: "catalog-btn" do %>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+          </svg>
+          <%= t("header.catalog") %>
+        <% end %>
+
+        <%= form_with url: products_path, method: :get, class: "header-search" do |f| %>
+          <%= f.text_field :q, value: params[:q], placeholder: t("header.search_placeholder") %>
+          <%= f.submit t("header.search") %>
+        <% end %>
+
+        <div class="header-icons">
+          <% if logged_in? %>
+            <%= link_to account_path, class: "icon-link" do %>
+              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span><%= current_user.name.split.first %></span>
+            <% end %>
+            <%= button_to logout_path, method: :delete, class: "icon-link" do %>
+              <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              <span><%= t("header.logout") %></span>
+            <% end %>
+          <% else %>
+            <%= link_to login_path, class: "icon-link" do %>
+              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span><%= t("header.login") %></span>
+            <% end %>
+          <% end %>
+
+          <%= link_to favorites_path, class: "icon-link" do %>
+            <svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+            <span><%= t("header.favorites") %></span>
+            <% if favorite_ids.size > 0 %><span class="cart-badge"><%= favorite_ids.size %></span><% end %>
+          <% end %>
+
+          <%= link_to cart_path, class: "icon-link" do %>
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span><%= t("header.cart") %></span>
+            <% if cart_count > 0 %><span class="cart-badge"><%= cart_count %></span><% end %>
+          <% end %>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <% if notice %><p class="flash ok"><%= notice %></p><% end %>
+      <% if alert %><p class="flash err"><%= alert %></p><% end %>
+      <%= yield %>
+    </main>
+
+    <%= render "shared/footer" %>
+
+    <dialog id="callback-dialog" class="promo-dialog">
+      <%= form_with url: callback_requests_path, scope: :callback_request do |f| %>
+        <h2><%= t("callback.title") %></h2>
+        <p><%= t("callback.text") %></p>
+
+        <label><%= t("callback.name") %></label>
+        <%= f.text_field :name, autocomplete: "name" %>
+
+        <label><%= t("callback.phone") %></label>
+        <%= f.telephone_field :phone, required: true, placeholder: "+380 ...", autocomplete: "tel",
+                              pattern: "\\+?[0-9\\s\\-\\(\\)]{10,16}" %>
+
+        <div class="actions" style="margin-top: 20px;">
+          <%= f.submit t("callback.submit") %>
+          <button type="button" class="secondary" data-close-callback><%= t("callback.cancel") %></button>
+        </div>
+      <% end %>
+    </dialog>
+    <%= render "shared/welcome" %>
+  </body>
+</html>

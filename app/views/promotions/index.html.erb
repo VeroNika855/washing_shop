@@ -1,0 +1,35 @@
+<h1><%= t("promotions.title") %></h1>
+
+<div class="toolbar">
+  <div class="chips">
+    <%= link_to t("promotions.all"), promotions_path(request.query_parameters.except("kind")),
+                class: "chip #{'active' if params[:kind].blank?}" %>
+    <% @kind_counts.each do |kind, count| %>
+      <%= link_to chip_path(:kind, kind, :promotions_path), class: "chip #{'active' if params[:kind] == kind}" do %>
+        <%= opt(kind) %> <span class="count"><%= count %></span>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="chips">
+    <%= link_to t("promotions.sort_new"), chip_path(:sort, "new", :promotions_path),
+                class: "chip #{'active' if params[:sort] != 'ending'}" %>
+    <%= link_to t("promotions.sort_ending"), chip_path(:sort, "ending", :promotions_path),
+                class: "chip #{'active' if params[:sort] == 'ending'}" %>
+  </div>
+</div>
+
+<% if @promotions.empty? %>
+  <p class="notice"><%= t("promotions.empty") %></p>
+<% else %>
+  <div class="promo-grid">
+    <% @promotions.each do |promo| %>
+      <%= link_to promotion_path(promo), class: "promo-card" do %>
+        <%= promo_banner(promo) %>
+        <div class="promo-body">
+          <h3><%= promo.title %></h3>
+          <span class="promo-days"><%= t("promotions.days_left", count: promo_days_left(promo)) %></span>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

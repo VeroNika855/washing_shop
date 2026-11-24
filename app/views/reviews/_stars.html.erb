@@ -1,0 +1,8 @@
+<% count = product.reviews_count.to_i %>
+<div class="rating-line">
+  <span class="stars" style="--rate: <%= (product.rating_avg / 5.0 * 100).round %>%">★★★★★</span>
+  <% if count > 0 %>
+    <span class="rating-num"><%= number_with_precision(product.rating_avg, precision: 1) %></span>
+    <span class="muted-text">(<%= count %>)</span>
+  <% end %>
+</div>

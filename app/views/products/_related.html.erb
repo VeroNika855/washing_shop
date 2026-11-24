@@ -1,0 +1,21 @@
+<% if @similar.present? %>
+  <section class="products related">
+    <h2><%= t("product.related_title") %></h2>
+    <div class="grid">
+      <% @similar.each do |product| %>
+        <%= render "products/card", product: product %>
+      <% end %>
+    </div>
+  </section>
+<% end %>
+
+<% if @recent.present? %>
+  <section class="products related">
+    <h2><%= t("product.recent_title") %></h2>
+    <div class="grid">
+      <% @recent.each do |product| %>
+        <%= render "products/card", product: product %>
+      <% end %>
+    </div>
+  </section>
+<% end %>

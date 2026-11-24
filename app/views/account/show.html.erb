@@ -1,0 +1,109 @@
+<h1><%= t("account.title") %></h1>
+
+<% if logged_in? %>
+  <% initials = current_user.name.to_s.split.map { |word| word[0] }.first(2).join.upcase %>
+
+  <section class="profile">
+    <div class="profile-main">
+      <div class="avatar"><%= initials %></div>
+      <div>
+        <h2 class="profile-name"><%= current_user.name %></h2>
+        <p class="profile-mail"><%= current_user.email %></p>
+        <% if admin? %><span class="badge"><%= t("account.admin_badge") %></span><% end %>
+      </div>
+    </div>
+
+    <div class="stat-tiles">
+      <div class="stat"><strong><%= @orders.size %></strong><span><%= t("account_page.stat_orders") %></span></div>
+      <div class="stat"><strong><%= favorite_ids.size %></strong><span><%= t("account_page.stat_favorites") %></span></div>
+      <div class="stat"><strong><%= cart_count %></strong><span><%= t("account_page.stat_cart") %></span></div>
+    </div>
+  </section>
+
+  <section class="tiles">
+    <%= link_to favorites_path, class: "tile" do %>
+      <svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+      <span><%= t("account_page.tile_favorites") %></span>
+    <% end %>
+    <%= link_to cart_path, class: "tile" do %>
+      <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span><%= t("account_page.tile_cart") %></span>
+    <% end %>
+    <%= link_to promotions_path, class: "tile" do %>
+      <svg viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></svg>
+      <span><%= t("account_page.tile_promos") %></span>
+    <% end %>
+    <%= link_to products_path, class: "tile" do %>
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <span><%= t("account_page.tile_catalog") %></span>
+    <% end %>
+
+    <% if admin? %>
+      <%= link_to admin_products_path, class: "tile tile-dark" do %>
+        <svg viewBox="0 0 24 24"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"/></svg>
+        <span><%= t("account.admin_products") %></span>
+      <% end %>
+      <%= link_to admin_promotions_path, class: "tile tile-dark" do %>
+        <svg viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/></svg>
+        <span><%= t("account.admin_promotions") %></span>
+      <% end %>
+      <%= link_to admin_orders_path, class: "tile tile-dark" do %>
+        <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        <span><%= t("account.admin_orders") %></span>
+      <% end %>
+    <% end %>
+  </section>
+
+  <h2><%= t("account.my_orders") %></h2>
+
+  <% if @orders.empty? %>
+    <div class="favorites-empty">
+      <p><%= t("account.no_orders") %></p>
+      <%= link_to t("favorites.to_catalog"), products_path, class: "hx-btn" %>
+    </div>
+  <% else %>
+    <div class="order-list">
+      <% @orders.each do |order| %>
+        <% label = Order.statuses[order.status].to_s %>
+        <% tone = case label when /Скас/ then "bad" when /Викон|Достав|Завер/ then "good" else "mid" end %>
+        <article class="order-card">
+          <header>
+            <div>
+              <strong>№<%= order.id %></strong>
+              <span class="muted-text"><%= order.created_at.strftime("%d.%m.%Y %H:%M") %></span>
+            </div>
+            <span class="status <%= tone %>"><%= opt(label) %></span>
+          </header>
+
+          <ul class="order-items">
+            <% order.order_items.first(3).each do |item| %>
+              <li>
+                <% if item.product.image_url.present? %>
+                  <img class="order-thumb" src="<%= item.product.image_url %>" alt="">
+                <% else %>
+                  <span class="order-thumb empty"></span>
+                <% end %>
+                <span class="order-item-name"><%= item.product.name %></span>
+                <span class="muted-text">×<%= item.quantity %></span>
+              </li>
+            <% end %>
+            <% if order.order_items.size > 3 %>
+              <li class="muted-text"><%= t("account_page.more_items", count: order.order_items.size - 3) %></li>
+            <% end %>
+          </ul>
+
+          <footer>
+            <strong class="order-total"><%= money(order.total) %></strong>
+            <%= link_to t("account_page.open"), order_path(order), class: "btn" %>
+          </footer>
+        </article>
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <div class="favorites-empty">
+    <p><%= t("account.guest_text") %></p>
+    <%= link_to t("account.login"), login_path, class: "hx-btn" %>
+    <%= link_to t("account.register"), register_path, class: "hx-btn dark" %>
+  </div>
+<% end %>

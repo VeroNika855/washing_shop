@@ -1,0 +1,35 @@
+<%= render "admin/nav" %>
+<h1>Замовлення</h1>
+
+<div class="toolbar">
+  <%= form_with url: admin_orders_path, method: :get do |f| %>
+    <%= f.select :status, Order.statuses.map { |key, label| [label, key] },
+                 { include_blank: "Усі статуси", selected: params[:status] } %>
+    <%= f.submit "Показати" %>
+  <% end %>
+</div>
+
+<% if @orders.empty? %>
+  <p class="notice">Замовлень немає.</p>
+<% else %>
+  <table class="cart-table">
+    <thead>
+      <tr><th>№</th><th>Дата</th><th>Покупець</th><th>Телефон</th><th>Сума</th><th>Статус</th><th></th></tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |order| %>
+        <% label = Order.statuses[order.status].to_s %>
+        <% tone = case label when /Скас/ then "bad" when /Викон|Достав|Завер/ then "good" else "mid" end %>
+        <tr>
+          <td><strong>№<%= order.id %></strong></td>
+          <td><%= order.created_at.strftime("%d.%m.%Y %H:%M") %></td>
+          <td><%= order.customer_name %></td>
+          <td><%= order.phone %></td>
+          <td><strong><%= number_with_delimiter(order.total.to_i, delimiter: " ") %> грн</strong></td>
+          <td><span class="status <%= tone %>"><%= label %></span></td>
+          <td><%= link_to "Відкрити", admin_order_path(order), class: "btn small" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -1,0 +1,54 @@
+<%= render "shared/steps", current: 1 %>
+<h1><%= t("cart.title") %></h1>
+
+<% if @items.empty? %>
+  <div class="favorites-empty">
+    <p><%= t("cart.empty") %></p>
+    <%= link_to t("cart.go_catalog"), products_path, class: "hx-btn" %>
+  </div>
+  <%= render "shared/popular" %>
+<% else %>
+  <div class="cart-layout">
+    <div>
+      <%= render "shared/free_shipping" %>
+
+      <div class="cart-lines">
+        <% @items.each do |item| %>
+          <% product = item[:product] %>
+          <% qty = item[:quantity] %>
+          <% max = product.gift_card? ? 10 : product.stock.to_i %>
+          <article class="cart-line">
+            <%= link_to product_path(product), class: "cart-line-img" do %>
+              <%= product_image(product, "thumb") %>
+            <% end %>
+
+            <div class="cart-line-info">
+              <%= link_to product.name, product_path(product), class: "cart-line-name" %>
+              <span class="muted-text"><%= money(product.current_price) %></span>
+            </div>
+
+            <div class="stepper">
+              <%= button_to "−", update_cart_path(product_id: product.id), method: :patch,
+                            params: { quantity: qty - 1 }, class: "step-btn", disabled: qty <= 1 %>
+              <span><%= qty %></span>
+              <%= button_to "+", update_cart_path(product_id: product.id), method: :patch,
+                            params: { quantity: qty + 1 }, class: "step-btn", disabled: qty >= max %>
+            </div>
+
+            <strong class="cart-line-sum"><%= money(product.current_price * qty) %></strong>
+
+            <%= button_to t("cart.remove"), remove_cart_path(product_id: product.id), method: :delete, class: "link-danger" %>
+          </article>
+        <% end %>
+      </div>
+    </div>
+
+    <aside class="cart-summary">
+      <h3><%= t("cart_page.summary") %></h3>
+      <div class="sum-row"><span><%= t("cart_page.items") %></span><strong><%= @items.sum { |i| i[:quantity] } %></strong></div>
+      <div class="sum-row total-row"><span><%= t("cart.total") %></span><strong><%= money(@total) %></strong></div>
+      <%= link_to t("cart.checkout"), new_order_path, class: "btn wide" %>
+      <%= link_to t("cart.continue"), products_path, class: "back-link" %>
+    </aside>
+  </div>
+<% end %>

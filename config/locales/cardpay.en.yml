@@ -1,0 +1,11 @@
+en:
+  cardpay:
+    number: "Card number"
+    expiry: "Expiry date"
+    holder: "Cardholder"
+    note: "Card details are not stored. They are used only to confirm the payment."
+    paid: "Card payment was successful. Thank you!"
+    err_number: "Invalid card number: enter 16 digits."
+    err_expiry: "Invalid or expired card expiry date."
+    err_cvv: "CVV must contain 3 digits."
+    err_holder: "Enter the cardholder name."

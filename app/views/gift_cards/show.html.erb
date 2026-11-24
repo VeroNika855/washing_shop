@@ -1,0 +1,58 @@
+<nav class="breadcrumbs">
+  <%= link_to t("header.store_name"), root_path %> › <%= t("gift.title") %>
+</nav>
+
+<%= form_with url: gift_cards_path, method: :post, class: "gift-page" do |f| %>
+  <div class="gift-visual">
+    <div class="gift-card-art">
+      <span class="gift-brand"><%= t("header.store_name") %></span>
+      <span class="gift-ecard"><%= t("gift.card_label") %></span>
+      <strong class="gift-amount" data-gift-amount><%= money(@selected) %></strong>
+    </div>
+  </div>
+
+  <div class="gift-info">
+    <h1><%= t("gift.product_name") %> <span data-gift-amount><%= money(@selected) %></span></h1>
+
+    <div class="pills">
+      <span class="pill pill-viber">● <%= t("gift.delivery_viber") %></span>
+      <span class="pill pill-sms">● <%= t("gift.delivery_sms") %></span>
+    </div>
+
+    <h2><%= t("gift.specs") %></h2>
+    <dl class="specs">
+      <div><dt><%= t("gift.kind") %></dt><dd><%= t("gift.kind_value") %></dd></div>
+      <div><dt><%= t("gift.nominal_label") %></dt><dd data-gift-amount><%= money(@selected) %></dd></div>
+      <div><dt><%= t("gift.validity") %></dt><dd><%= t("gift.validity_value") %></dd></div>
+      <div><dt><%= t("gift.brand") %></dt><dd><%= t("header.store_name") %></dd></div>
+    </dl>
+
+    <h2><%= t("gift.choose_nominal") %></h2>
+    <div class="nominals">
+      <% @nominals.each do |nominal| %>
+        <label class="nominal">
+          <%= radio_button_tag :nominal, nominal, nominal == @selected, data: { price: money(nominal) } %>
+          <span><%= money(nominal) %></span>
+        </label>
+      <% end %>
+    </div>
+
+    <h2><%= t("gift.how_title") %></h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-head"><span class="step-num">1</span><p><%= t("gift.step1") %></p></div>
+        <div class="step-note"><%= t("gift.step1_note") %></div>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="step-num">2</span><p><%= t("gift.step2") %></p></div>
+        <div class="step-note"><%= t("gift.step2_note") %></div>
+      </div>
+    </div>
+    <p class="gift-demo"><%= t("gift.demo_note") %></p>
+
+    <div class="gift-buy">
+      <strong class="gift-price" data-gift-amount><%= money(@selected) %></strong>
+      <%= f.submit t("gift.buy"), class: "buy-btn" %>
+    </div>
+  </div>
+<% end %>

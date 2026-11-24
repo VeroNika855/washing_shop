@@ -1,0 +1,68 @@
+<nav class="breadcrumbs" aria-label="breadcrumb">
+  <%= link_to t("product.pg_home"), root_path %>
+  <span>›</span>
+  <%= link_to t("product.pg_catalog"), products_path %>
+  <span>›</span>
+  <%= link_to @product.manufacturer, products_path(manufacturer: @product.manufacturer) %>
+  <span>›</span>
+  <span class="current"><%= @product.name %></span>
+</nav>
+
+<section class="pdp">
+  <div class="pdp-gallery">
+    <%= product_image(@product) %>
+  </div>
+
+  <div class="pdp-info">
+    <div class="pdp-info">
+      <%= render "favorites/heart", product: @product %>
+    <p class="pdp-brand"><%= @product.manufacturer %></p>
+    <h1><%= @product.name %></h1>
+    <%= render "reviews/stars", product: @product %>
+    <p class="pdp-model"><%= t("product.pg_model") %>: <%= @product.model_number %></p>
+
+    <div class="pdp-price"><%= price_tag(@product) %></div>
+
+    <% if @product.stock.to_i > 0 %>
+      <p class="pdp-stock ok">
+        ● <%= t("product.pg_in_stock") %>
+        <% if @product.stock.to_i <= 5 %>
+          <span>(<%= t("product.pg_left", count: @product.stock) %>)</span>
+        <% end %>
+      </p>
+      <%= button_to t("product.pg_add"), add_cart_path(@product), method: :post, class: "pdp-buy" %>
+    <% else %>
+      <p class="pdp-stock out">● <%= t("product.pg_out_of_stock") %></p>
+    <% end %>
+
+    <ul class="pdp-perks">
+      <li><strong><%= t("product.pg_warranty") %></strong><span><%= t("product.pg_warranty_text") %></span></li>
+      <li><strong><%= t("product.pg_delivery") %></strong><span><%= t("product.pg_delivery_text") %></span></li>
+      <li><strong><%= t("product.pg_returns") %></strong><span><%= t("product.pg_returns_text") %></span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="pdp-details">
+  <div class="pdp-card">
+    <h2><%= t("product.pg_specs") %></h2>
+    <table class="spec-table">
+      <tr><th><%= t("product.pg_manufacturer") %></th><td><%= @product.manufacturer %></td></tr>
+      <tr><th><%= t("product.pg_model") %></th><td><%= @product.model_number %></td></tr>
+      <tr><th><%= t("product.pg_load_type") %></th><td><%= opt(@product.load_type) %></td></tr>
+      <tr><th><%= t("product.pg_capacity") %></th><td><%= t("product.pg_capacity_value", value: @product.capacity) %></td></tr>
+      <tr><th><%= t("product.pg_spin") %></th><td><%= t("product.pg_spin_value", value: @product.spin_speed) %></td></tr>
+      <tr><th><%= t("product.pg_energy") %></th><td><span class="energy-badge"><%= @product.energy_class %></span></td></tr>
+    </table>
+  </div>
+
+  <% if @product.description.present? %>
+    <div class="pdp-card">
+      <h2><%= t("product.pg_description") %></h2>
+      <p><%= @product.description %></p>
+    </div>
+  <% end %>
+</section>
+
+<%= render "reviews/section" %>
+<%= render "products/related" %>

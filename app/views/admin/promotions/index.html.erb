@@ -1,0 +1,68 @@
+<%= render "admin/nav" %>
+<h1>Акції на товари</h1>
+
+<p class="notice">Натисніть на товар, щоб призначити знижку, дату початку й тривалість акції.</p>
+
+<input type="text" data-filter-input placeholder="Пошук товару">
+
+<% labels = { running: "Діє", scheduled: "Заплановано", ended: "Завершена", hidden: "Прихована" } %>
+<% default_start = Time.current.strftime("%Y-%m-%dT%H:%M") %>
+
+<div class="promo-list">
+  <% @products.each do |product| %>
+    <% promo = @promos[product.id] %>
+    <% duration, unit = promo_duration(promo) %>
+    <div class="promo-row" data-filter-item data-open-promo
+         data-name="<%= product.name %>"
+         data-save-url="<%= admin_save_promotion_path(product) %>"
+         data-stop-url="<%= admin_stop_promotion_path(product) %>"
+         data-has-promo="<%= promo.present? %>"
+         data-percent="<%= promo&.discount_percent %>"
+         data-start="<%= promo&.starts_at&.strftime('%Y-%m-%dT%H:%M') %>"
+         data-default-start="<%= default_start %>"
+         data-duration="<%= duration %>"
+         data-unit="<%= unit %>">
+      <%= product_image(product, "thumb") %>
+      <div class="promo-row-info">
+        <strong><%= product.name %></strong>
+        <small><%= product.manufacturer %> · <%= money(product.price) %><%= " · прихований" unless product.active %></small>
+      </div>
+      <div class="promo-row-status">
+        <% if promo %>
+          <span class="tag <%= 'on' if promo.status == :running %>">
+            -<%= promo.discount_percent %>% · <%= labels[promo.status] %>
+          </span>
+          <small><%= promo.starts_at.strftime("%d.%m.%Y %H:%M") %> – <%= promo.ends_at.strftime("%d.%m.%Y %H:%M") %></small>
+        <% else %>
+          <small>Без акції</small>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<dialog id="promo-dialog" class="promo-dialog">
+  <%= form_with url: "#", method: :patch, id: "promo-form" do |f| %>
+    <h2 id="promo-dialog-title"></h2>
+
+    <label>Знижка, %</label>
+    <%= f.number_field :discount_percent, min: 1, max: 90, required: true, id: "promo-percent" %>
+
+    <label>Початок акції</label>
+    <%= f.datetime_local_field :starts_at, required: true, id: "promo-start" %>
+
+    <label>Тривалість</label>
+    <div class="price-range">
+      <%= f.number_field :duration, min: 1, required: true, id: "promo-duration" %>
+      <%= f.select :unit, [["днів", "days"], ["годин", "hours"]], {}, id: "promo-unit" %>
+    </div>
+
+    <div class="actions" style="margin-top: 20px;">
+      <%= f.submit "Зберегти акцію" %>
+      <button type="button" class="secondary" data-close-dialog>Скасувати</button>
+    </div>
+  <% end %>
+
+  <%= button_to "Зняти акцію", "#", method: :delete, class: "danger",
+                form: { id: "promo-stop-form" } %>
+</dialog>

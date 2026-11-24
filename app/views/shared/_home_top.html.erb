@@ -1,0 +1,58 @@
+<section class="hx">
+  <span class="hx-blob b1"></span>
+  <span class="hx-blob b2"></span>
+  <span class="hx-blob b3"></span>
+
+  <div class="hx-copy">
+    <span class="hx-tag"><%= t("home.tag") %></span>
+    <h2 class="hx-title"><%= t("home.title") %></h2>
+    <p><%= t("home.text") %></p>
+    <div class="hx-actions">
+      <%= link_to t("home.btn_promos"), promotions_path, class: "hx-btn" %>
+      <%= link_to t("home.btn_gift"), gift_cards_path, class: "hx-btn dark" %>
+    </div>
+  </div>
+
+  <div class="hx-art" aria-hidden="true">
+    <svg viewBox="0 0 220 260" class="hx-washer">
+      <rect x="10" y="10" width="200" height="240" rx="30" fill="#fff"/>
+      <rect x="30" y="30" width="64" height="14" rx="7" fill="#89B8C4"/>
+      <circle cx="172" cy="37" r="9" fill="#FCAFC1"/>
+      <circle cx="110" cy="152" r="68" fill="#3D7584"/>
+      <circle cx="110" cy="152" r="54" fill="#89B8C4"/>
+      <circle class="bub b1" cx="92" cy="140" r="12" fill="#fff" opacity=".75"/>
+      <circle class="bub b2" cx="128" cy="168" r="9" fill="#FCAFC1"/>
+      <circle class="bub b3" cx="122" cy="126" r="6" fill="#fff" opacity=".85"/>
+    </svg>
+    <div class="hx-card c1"><strong>-30%</strong><span><%= t("home.card_sale") %></span></div>
+    <div class="hx-card c2"><strong>0%</strong><span><%= t("home.card_credit") %></span></div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <% 2.times do %>
+      <span class="ticker-half">
+        <span><%= t("home.ticker1") %></span><i>✦</i>
+        <span><%= t("home.ticker2") %></span><i>✦</i>
+        <span><%= t("home.ticker3") %></span><i>✦</i>
+        <span><%= t("home.ticker4") %></span><i>✦</i>
+      </span>
+    <% end %>
+  </div>
+</div>
+
+<section class="ads">
+  <%= link_to promotions_path, class: "ad ad-pink" do %>
+    <strong><%= t("home.ad1_title") %></strong>
+    <span><%= t("home.ad1_text") %></span>
+  <% end %>
+  <%= link_to promotions_path, class: "ad ad-mist" do %>
+    <strong><%= t("home.ad2_title") %></strong>
+    <span><%= t("home.ad2_text") %></span>
+  <% end %>
+  <%= link_to products_path(sort: "asc"), class: "ad ad-ink" do %>
+    <strong><%= t("home.ad3_title") %></strong>
+    <span><%= t("home.ad3_text") %></span>
+  <% end %>
+</section>

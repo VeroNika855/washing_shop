@@ -1,0 +1,107 @@
+<% if request.query_parameters.blank? %>
+  <%= render "shared/home_top" %>
+<% end %>
+
+<h1><%= t("catalog.title") %></h1>
+
+<div class="chips">
+  <% @load_counts.each do |type, count| %>
+    <%= link_to chip_path(:load_type, type), class: "chip #{'active' if params[:load_type] == type}" do %>
+      <%= t("catalog.load_chip", type: opt(type)) %> <span class="count"><%= count %></span>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="chips">
+  <% @brand_counts.each do |name, count| %>
+    <%= link_to chip_path(:manufacturer, name), class: "chip #{'active' if params[:manufacturer] == name}" do %>
+      <%= name %> <span class="count"><%= count %></span>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="toolbar">
+  <strong><%= t("catalog.products_count", count: @total) %></strong>
+  <div class="chips">
+    <%= link_to t("catalog.sort_asc"), chip_path(:sort, "asc"),
+                class: "chip #{'active' if params[:sort] != 'desc'}" %>
+    <%= link_to t("catalog.sort_desc"), chip_path(:sort, "desc"),
+                class: "chip #{'active' if params[:sort] == 'desc'}" %>
+  </div>
+</div>
+
+<div class="catalog">
+  <aside class="sidebar">
+    <details class="filters" open>
+      <summary><%= t("catalog.filters") %></summary>
+      <%= form_with url: products_path, method: :get do |f| %>
+        <%= f.hidden_field :q, value: params[:q] %>
+
+        <label><%= t("catalog.manufacturer") %></label>
+        <%= f.select :manufacturer, @manufacturers, { include_blank: t("catalog.all"), selected: params[:manufacturer] } %>
+
+        <label><%= t("catalog.load_type") %></label>
+        <%= f.select :load_type, %w[Фронтальне Вертикальне].map { |type| [opt(type), type] },
+                     { include_blank: t("catalog.any_m"), selected: params[:load_type] } %>
+
+        <label><%= t("catalog.price") %></label>
+        <div class="price-range">
+          <%= f.number_field :min_price, value: params[:min_price], placeholder: t("catalog.from") %>
+          <%= f.number_field :max_price, value: params[:max_price], placeholder: t("catalog.to") %>
+        </div>
+
+        <label><%= t("catalog.spin_from") %></label>
+        <%= f.select :spin_speed, [800, 1000, 1200, 1400, 1600], { include_blank: t("catalog.any_n"), selected: params[:spin_speed].to_s } %>
+
+        <label><%= t("catalog.energy_class") %></label>
+        <%= f.select :energy_class, %w[A B C D E F G], { include_blank: t("catalog.any_m"), selected: params[:energy_class] } %>
+
+        <label><%= t("catalog.sort") %></label>
+        <%= f.select :sort, [[t("catalog.sort_asc"), "asc"], [t("catalog.sort_desc"), "desc"]], { selected: params[:sort] } %>
+
+        <%= f.submit t("catalog.apply") %>
+        <%= link_to t("catalog.reset"), products_path, class: "reset" %>
+      <% end %>
+    </details>
+  </aside>
+
+  <section class="products">
+    <% if @products.empty? %>
+      <p class="notice"><%= t("catalog.nothing_found") %></p>
+    <% else %>
+      <div class="grid">
+        <%= render partial: "products/card", collection: @products, as: :product %>
+      </div>
+
+      <% if @page < @pages %>
+        <div class="load-more">
+          <%= link_to t("catalog.show_more"), page_url(@page + 1, more: true), class: "btn" %>
+        </div>
+      <% end %>
+
+      <% if @pages > 1 %>
+        <nav class="pagination">
+          <% if @page > 1 %>
+            <%= link_to "‹", page_url(@page - 1), class: "page-link" %>
+          <% end %>
+          <% page_window(@page, @pages).each do |p| %>
+            <% if p == :gap %>
+              <span class="page-gap">…</span>
+            <% elsif p == @page %>
+              <span class="page-link current"><%= p %></span>
+            <% else %>
+              <%= link_to p, page_url(p), class: "page-link" %>
+            <% end %>
+          <% end %>
+          <% if @page < @pages %>
+            <%= link_to "›", page_url(@page + 1), class: "page-link" %>
+          <% end %>
+        </nav>
+      <% end %>
+    <% end %>
+  </section>
+</div>
+
+<% if request.query_parameters.blank? %>
+  <%= render "shared/home_bottom" %>
+<% end %>

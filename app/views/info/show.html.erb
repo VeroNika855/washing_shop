@@ -1,0 +1,50 @@
+<% slug = params[:slug].to_s %>
+<% icons = [
+  '<path d="M20 6 9 17l-5-5"/>',
+  '<rect x="1" y="6" width="15" height="11" rx="2"/><path d="M16 9h4l3 3v5h-7z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>',
+  '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>'
+] %>
+
+<nav class="breadcrumbs">
+  <%= link_to t("infopage.home"), root_path %> <span>›</span> <span><%= t("infopage.#{slug}.title") %></span>
+</nav>
+
+<section class="info-hero">
+  <span class="hx-blob b1"></span><span class="hx-blob b2"></span>
+  <h1><%= t("infopage.#{slug}.title") %></h1>
+  <p><%= t("infopage.#{slug}.lead") %></p>
+</section>
+
+<div class="info-body">
+  <aside class="info-nav">
+    <% %w[about delivery payment warranty returns trade-in contacts].each do |s| %>
+      <%= link_to t("infopage.#{s}.title"), info_path(s), class: ("active" if s == slug) %>
+    <% end %>
+  </aside>
+
+  <div>
+    <div class="info-cards">
+      <% t("infopage.#{slug}.items").each_with_index do |item, i| %>
+        <article class="info-card">
+          <span class="info-ico">
+            <svg viewBox="0 0 24 24"><%= icons[i % icons.size].html_safe %></svg>
+          </span>
+          <h3><%= item[:title] %></h3>
+          <p><%= item[:text] %></p>
+        </article>
+      <% end %>
+    </div>
+
+    <section class="info-cta">
+      <div>
+        <h3><%= t("infopage.cta_title") %></h3>
+        <p><%= t("infopage.cta_text") %></p>
+      </div>
+      <div class="info-cta-actions">
+        <button type="button" class="btn" data-open-callback><%= t("infopage.cta_call") %></button>
+        <%= link_to t("infopage.cta_catalog"), products_path, class: "hx-btn" %>
+      </div>
+    </section>
+  </div>
+</div>

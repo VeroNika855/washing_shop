@@ -1,0 +1,11 @@
+<% popular = Product.catalog.where("stock > 0").order(Arel.sql("RANDOM()")).limit(4) %>
+<% if popular.any? %>
+  <section class="products related">
+    <h2><%= t("ads.popular_title") %></h2>
+    <div class="grid">
+      <% popular.each do |product| %>
+        <%= render "products/card", product: product %>
+      <% end %>
+    </div>
+  </section>
+<% end %>

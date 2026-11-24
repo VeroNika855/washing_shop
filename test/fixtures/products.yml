@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  manufacturer: MyString
+  model_number: MyString
+  description: MyText
+  price: 9.99
+  stock: 1
+  load_type: MyString
+  capacity: 9.99
+  spin_speed: 1
+  energy_class: MyString
+  active: false
+
+two:
+  name: MyString
+  manufacturer: MyString
+  model_number: MyString
+  description: MyText
+  price: 9.99
+  stock: 1
+  load_type: MyString
+  capacity: 9.99
+  spin_speed: 1
+  energy_class: MyString
+  active: false

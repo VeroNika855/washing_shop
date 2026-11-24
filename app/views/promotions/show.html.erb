@@ -1,0 +1,46 @@
+<nav class="breadcrumbs">
+  <%= link_to t("promotions.title"), promotions_path %> › <%= @promotion.title %>
+</nav>
+
+<div class="promo-detail">
+  <%= promo_banner(@promotion, "large") %>
+
+  <div class="promo-info">
+    <h1><%= @promotion.title %></h1>
+    <p><%= @promotion.description %></p>
+
+    <details class="promo-conditions">
+      <summary><%= t("promotions.conditions") %></summary>
+      <p><%= @promotion.conditions %></p>
+    </details>
+
+    <% if @promotion.ends_at > Time.current %>
+      <div class="countdown" data-countdown="<%= @promotion.ends_at.iso8601 %>">
+        <div class="cd-until">
+          <span><%= t("promotions.valid_until") %></span>
+          <strong><%= @promotion.ends_at.strftime("%d.%m.%Y") %></strong>
+        </div>
+        <div>
+          <span class="cd-label"><%= t("promotions.until_end") %></span>
+          <div class="cd-timer">
+            <div><b data-unit="days">00</b><small><%= t("promotions.days") %></small></div>
+            <div><b data-unit="hours">00</b><small><%= t("promotions.hours") %></small></div>
+            <div><b data-unit="minutes">00</b><small><%= t("promotions.minutes") %></small></div>
+            <div><b data-unit="seconds">00</b><small><%= t("promotions.seconds") %></small></div>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <p class="notice"><%= t("promotions.ended") %></p>
+    <% end %>
+  </div>
+</div>
+
+<% if @products.any? %>
+  <h2><%= t("promotions.products_title") %></h2>
+  <div class="grid">
+    <%= render partial: "products/card", collection: @products, as: :product %>
+  </div>
+<% end %>
+
+<p><%= link_to t("promotions.back"), promotions_path %></p>

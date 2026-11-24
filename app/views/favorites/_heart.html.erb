@@ -1,0 +1,8 @@
+<% liked = favorite_ids.include?(product.id) %>
+<%= button_to toggle_favorite_path(product), method: :post,
+              form_class: "heart-form",
+              class: "heart #{'on' if liked}",
+              title: (liked ? t("favorites.remove") : t("favorites.add")),
+              aria: { label: (liked ? t("favorites.remove") : t("favorites.add")) } do %>
+  <svg viewBox="0 0 24 24" width="22" height="22"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+<% end %>

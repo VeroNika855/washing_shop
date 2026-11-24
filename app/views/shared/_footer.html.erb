@@ -1,0 +1,74 @@
+<footer class="site-footer">
+  <section class="footer-benefits">
+    <div class="footer-inner">
+      <div class="benefit">
+        <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <div><strong><%= t("site_footer.b_delivery_t") %></strong><p><%= t("site_footer.b_delivery") %></p></div>
+      </div>
+      <div class="benefit">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div><strong><%= t("site_footer.b_warranty_t") %></strong><p><%= t("site_footer.b_warranty") %></p></div>
+      </div>
+      <div class="benefit">
+        <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        <div><strong><%= t("site_footer.b_payment_t") %></strong><p><%= t("site_footer.b_payment") %></p></div>
+      </div>
+      <div class="benefit">
+        <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.5 15a9 9 0 1 0 2.1-9.4L1 10"/></svg>
+        <div><strong><%= t("site_footer.b_returns_t") %></strong><p><%= t("site_footer.b_returns") %></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="footer-main">
+    <div class="footer-inner footer-grid">
+      <div class="footer-help">
+        <h3><%= t("site_footer.help_title") %></h3>
+        <p><%= t("site_footer.help_text") %></p>
+        <button type="button" data-open-callback><%= t("site_footer.help_btn") %></button>
+      </div>
+
+      <div>
+        <h4><%= t("site_footer.col_store") %></h4>
+        <ul>
+          <li><%= link_to t("site_footer.about"), info_path("about") %></li>
+          <li><%= link_to t("site_footer.contacts"), info_path("contacts") %></li>
+          <li><%= link_to t("site_footer.catalog"), products_path %></li>
+          <li><%= link_to t("site_footer.promos"), promotions_path %></li>
+          <li><%= link_to t("site_footer.gifts"), gift_cards_path %></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4><%= t("site_footer.col_buyers") %></h4>
+        <ul>
+          <li><%= link_to t("site_footer.delivery"), info_path("delivery") %></li>
+          <li><%= link_to t("site_footer.payment"), info_path("payment") %></li>
+          <li><%= link_to t("site_footer.warranty"), info_path("warranty") %></li>
+          <li><%= link_to t("site_footer.returns"), info_path("returns") %></li>
+          <li><%= link_to t("site_footer.trade_in"), info_path("trade-in") %></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4><%= t("site_footer.col_account") %></h4>
+        <ul>
+          <li><%= link_to (logged_in? ? t("site_footer.account") : t("site_footer.login")), (logged_in? ? account_path : login_path) %></li>
+          <li><%= link_to t("site_footer.favorites"), favorites_path %></li>
+          <li><%= link_to t("site_footer.cart"), cart_path %></li>
+        </ul>
+      </div>
+
+      <div class="footer-consult">
+        <h4><%= t("site_footer.col_consult") %></h4>
+        <a class="footer-phone" href="tel:0800000000">0-800-000-000</a>
+        <p><%= t("site_footer.phone_note") %><br><%= t("site_footer.hours") %></p>
+        <a href="mailto:info@example.com">info@example.com</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer-bottom">
+    <div class="footer-inner"><%= t("footer") %></div>
+  </div>
+</footer>

@@ -1,0 +1,5 @@
+<ol class="steps-bar">
+  <li class="<%= 'done' if current > 1 %> <%= 'now' if current == 1 %>"><b>1</b> <span><%= t("checkout_steps.cart") %></span></li>
+  <li class="<%= 'done' if current > 2 %> <%= 'now' if current == 2 %>"><b>2</b> <span><%= t("checkout_steps.details") %></span></li>
+  <li class="<%= 'now' if current == 3 %>"><b>3</b> <span><%= t("checkout_steps.done") %></span></li>
+</ol>

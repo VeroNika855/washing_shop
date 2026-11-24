@@ -1,0 +1,65 @@
+<section class="reviews" id="reviews">
+  <h2><%= t("reviews.title") %> <span class="muted-text">(<%= @product.reviews_count.to_i %>)</span></h2>
+
+  <div class="reviews-grid">
+    <div class="panel review-summary">
+      <div class="review-score"><%= @product.reviews_count.to_i > 0 ? number_with_precision(@product.rating_avg, precision: 1) : "—" %></div>
+      <%= render "reviews/stars", product: @product %>
+      <div class="dist">
+        <% total = [@product.reviews_count.to_i, 1].max %>
+        <% 5.downto(1) do |n| %>
+          <div class="dist-row">
+            <span><%= n %>★</span>
+            <div class="dist-bar"><i style="width: <%= (@rating_counts[n].to_i * 100.0 / total).round %>%"></i></div>
+            <span class="muted-text"><%= @rating_counts[n].to_i %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="panel review-form">
+      <% if logged_in? %>
+        <h3><%= @my_review ? t("reviews.edit_yours") : t("reviews.write") %></h3>
+        <%= form_with url: product_reviews_path(@product), scope: :review do |f| %>
+          <div class="star-input">
+            <% 5.downto(1) do |n| %>
+              <input type="radio" id="rating-<%= n %>" name="review[rating]" value="<%= n %>"
+                     <%= "checked" if @my_review&.rating == n %> required>
+              <label for="rating-<%= n %>">★</label>
+            <% end %>
+          </div>
+          <%= f.text_area :body, value: @my_review&.body, rows: 3, maxlength: 1000, placeholder: t("reviews.placeholder") %>
+          <%= f.submit t("reviews.submit") %>
+        <% end %>
+      <% else %>
+        <h3><%= t("reviews.write") %></h3>
+        <p class="muted-text"><%= t("reviews.login_required") %></p>
+        <%= link_to t("account.login"), login_path, class: "btn" %>
+      <% end %>
+    </div>
+  </div>
+
+  <% if @reviews.empty? %>
+    <p class="muted-text"><%= t("reviews.empty") %></p>
+  <% else %>
+    <ul class="review-list">
+      <% @reviews.each do |review| %>
+        <% parts = review.user.name.to_s.split %>
+        <% shown = [parts.first, (parts[1] ? "#{parts[1][0]}." : nil)].compact.join(" ") %>
+        <li class="review">
+          <div class="review-head">
+            <strong><%= shown %></strong>
+            <% if @verified_ids.include?(review.user_id) %><span class="tag on"><%= t("reviews.verified") %></span><% end %>
+            <span class="stars small" style="--rate: <%= review.rating * 20 %>%">★★★★★</span>
+            <span class="muted-text"><%= review.created_at.strftime("%d.%m.%Y") %></span>
+            <% if admin? || review.user_id == current_user&.id %>
+              <%= button_to t("reviews.delete"), review_path(review), method: :delete, class: "link-danger",
+                            form: { data: { turbo_confirm: t("reviews.confirm_delete") } } %>
+            <% end %>
+          </div>
+          <% if review.body.present? %><p><%= review.body %></p><% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</section>

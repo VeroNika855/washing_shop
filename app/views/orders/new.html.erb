@@ -1,0 +1,113 @@
+<%= render "shared/steps", current: 2 %>
+<h1><%= t("orders.new.title") %></h1>
+
+<% card = params[:card] || {} %>
+<% card_on = @order.payment == Order::CARD_PAYMENT %>
+
+<div class="checkout">
+  <section class="checkout-form">
+    <%= form_with model: @order, url: orders_path do |f| %>
+      <% if @order.errors.any? %>
+        <div class="flash err">
+          <strong><%= t("common.fix_errors") %></strong>
+          <ul>
+            <% @order.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-section">
+        <h3 class="sec-title"><b>1</b> <%= t("checkout_page.sec_contacts") %></h3>
+
+        <label><%= t("orders.new.name") %></label>
+        <%= f.text_field :customer_name %>
+
+        <label><%= t("orders.new.phone") %></label>
+        <%= f.text_field :phone, placeholder: t("orders.new.phone_placeholder") %>
+
+        <label><%= t("orders.new.email") %></label>
+        <%= f.text_field :email %>
+      </div>
+
+      <div class="form-section">
+        <h3 class="sec-title"><b>2</b> <%= t("checkout_page.sec_delivery") %></h3>
+
+        <label><%= t("orders.new.delivery") %></label>
+        <%= f.select :delivery, Order::DELIVERY_METHODS.map { |m| [opt(m), m] }, include_blank: t("orders.new.choose") %>
+
+        <label><%= t("orders.new.address") %></label>
+        <%= f.text_field :address, placeholder: t("orders.new.address_placeholder") %>
+
+        <% if gift_in_cart? %>
+          <h4 class="sec-sub"><%= t("checkout_page.sec_gift") %></h4>
+
+          <label><%= t("orders.new.gift_name") %></label>
+          <%= f.text_field :gift_recipient_name %>
+
+          <label><%= t("orders.new.gift_phone") %></label>
+          <%= f.text_field :gift_recipient_phone, placeholder: t("orders.new.phone_placeholder") %>
+        <% end %>
+      </div>
+
+      <div class="form-section">
+        <h3 class="sec-title"><b>3</b> <%= t("checkout_page.sec_payment") %></h3>
+
+        <label><%= t("orders.new.payment") %></label>
+        <%= f.select :payment, Order::PAYMENT_METHODS.map { |m| [opt(m), m] }, include_blank: t("orders.new.choose") %>
+
+        <div class="card-box" id="card-box" <%= "hidden" unless card_on %>>
+          <div class="card-visual" aria-hidden="true">
+            <span class="card-chip"></span>
+            <div class="card-num" id="cv-num">•••• •••• •••• ••••</div>
+            <div class="card-row">
+              <span id="cv-holder"><%= card[:holder].to_s.upcase.presence || "IVAN IVANOV" %></span>
+              <span id="cv-exp"><%= card[:expiry].presence || "MM/РР" %></span>
+            </div>
+          </div>
+
+          <label><%= t("cardpay.number") %></label>
+          <%= text_field_tag "card[number]", nil, id: "card_number", inputmode: "numeric", autocomplete: "off", maxlength: 19, placeholder: "0000 0000 0000 0000" %>
+
+          <div class="card-two">
+            <div>
+              <label><%= t("cardpay.expiry") %></label>
+              <%= text_field_tag "card[expiry]", card[:expiry], id: "card_expiry", inputmode: "numeric", autocomplete: "off", maxlength: 5, placeholder: "MM/РР" %>
+            </div>
+            <div>
+              <label>CVV</label>
+              <%= password_field_tag "card[cvv]", nil, id: "card_cvv", inputmode: "numeric", autocomplete: "off", maxlength: 3, placeholder: "•••" %>
+            </div>
+          </div>
+
+          <label><%= t("cardpay.holder") %></label>
+          <%= text_field_tag "card[holder]", card[:holder], id: "card_holder", autocomplete: "off", placeholder: "IVAN IVANOV" %>
+
+          <p class="card-note"><%= t("cardpay.note") %></p>
+        </div>
+      </div>
+
+      <%= f.submit t("orders.new.submit"), class: "wide big" %>
+    <% end %>
+  </section>
+
+  <aside class="checkout-summary">
+    <h3><%= t("checkout_page.your_order") %></h3>
+    <ul>
+      <% @items.each do |item| %>
+        <li>
+          <% if item[:product].image_url.present? %>
+            <img class="order-thumb" src="<%= item[:product].image_url %>" alt="">
+          <% else %>
+            <span class="order-thumb empty"></span>
+          <% end %>
+          <span class="sum-name"><%= item[:product].name %> <span class="muted-text">× <%= item[:quantity] %></span></span>
+          <strong><%= money(item[:product].current_price * item[:quantity]) %></strong>
+        </li>
+      <% end %>
+    </ul>
+    <div class="sum-row total-row"><span><%= t("orders.new.total") %></span><strong><%= money(@total) %></strong></div>
+    <%= link_to t("orders.new.back_to_cart"), cart_path, class: "back-link" %>
+  </aside>
+</div>

@@ -1,0 +1,13 @@
+<h1><%= t("pages.#{@key}.title") %></h1>
+
+<div class="checkout-form">
+  <% t("pages.#{@key}.body").each do |paragraph| %>
+    <p><%= paragraph %></p>
+  <% end %>
+
+  <% if @demo %>
+    <p class="notice"><%= t("pages.demo_notice") %></p>
+  <% end %>
+
+  <%= link_to t("common.back_to_catalog"), products_path %>
+</div>

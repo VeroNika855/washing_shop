@@ -1,0 +1,13 @@
+<div class="product-card">
+  <%= render "favorites/heart", product: product %>
+  <%= product_image(product) %>
+  <h3><%= link_to product.name, product_path(product) %></h3>
+  <%= render "reviews/stars", product: product %>
+  <%= price_tag(product) %>
+  <p class="<%= product.stock.to_i > 0 ? 'in-stock' : 'out-of-stock' %>">
+    <%= product.stock.to_i > 0 ? t("catalog.in_stock") : t("catalog.out_of_stock") %>
+  </p>
+  <% if product.stock.to_i > 0 %>
+    <%= button_to t("catalog.add_to_cart"), add_cart_path(product_id: product.id), method: :post %>
+  <% end %>
+</div>

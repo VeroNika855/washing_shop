@@ -1,0 +1,14 @@
+<% total = cart_total_now %>
+<% if total > 0 %>
+  <% from = AdsHelper::FREE_SHIPPING_FROM %>
+  <div class="ship-bar">
+    <p>
+      <% if total < from %>
+        <%= t("ads.ship_left", amount: number_with_delimiter(from - total, delimiter: " ")) %>
+      <% else %>
+        <%= t("ads.ship_free") %>
+      <% end %>
+    </p>
+    <div class="ship-track"><i style="width: <%= [total * 100 / from, 100].min %>%"></i></div>
+  </div>
+<% end %>

@@ -1,0 +1,17 @@
+<h1><%= t("favorites.title") %></h1>
+
+<% if @products.empty? %>
+  <div class="favorites-empty">
+    <p><%= t("favorites.empty") %></p>
+    <%= link_to t("favorites.to_catalog"), products_path, class: "hero-btn" %>
+  </div>
+  <%= render "shared/popular" %>
+<% else %>
+  <section class="products">
+    <div class="grid">
+      <% @products.each do |product| %>
+        <%= render "products/card", product: product %>
+      <% end %>
+    </div>
+  </section>
+<% end %>

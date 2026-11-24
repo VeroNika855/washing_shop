@@ -1,0 +1,70 @@
+<%= render "admin/nav" %>
+<h1>Заявки на дзвінок</h1>
+
+<% if @requests.empty? %>
+  <p class="notice">Заявок поки немає.</p>
+<% else %>
+  <p class="muted-text">Натисніть на заявку, щоб побачити всі нотатки.</p>
+
+  <table class="cart-table">
+    <thead>
+      <tr><th>Дата</th><th>Ім'я</th><th>Телефон</th><th>Стан</th><th>Нотатки</th><th></th></tr>
+    </thead>
+    <tbody>
+      <% @requests.each do |item| %>
+        <tr class="<%= 'muted-row' if item.processed %>" data-open-dialog="request-dialog-<%= item.id %>">
+          <td><%= item.created_at.strftime("%d.%m.%Y %H:%M") %></td>
+          <td><%= item.name.presence || "—" %></td>
+          <td><%= link_to item.phone, "tel:#{item.phone.gsub(/[^\d+]/, '')}" %></td>
+          <td>
+            <span class="tag <%= 'on' unless item.processed %>"><%= item.processed ? "Опрацьована" : "Нова" %></span>
+          </td>
+          <td><%= item.notes.size > 0 ? item.notes.size : "—" %></td>
+          <td>
+            <div class="actions">
+              <button type="button" class="secondary" data-open-dialog="request-dialog-<%= item.id %>">Додати нотатку</button>
+              <%= button_to (item.processed ? "Повернути в нові" : "Передзвонили"),
+                            toggle_admin_callback_request_path(item), method: :patch %>
+              <%= button_to "Видалити", admin_callback_request_path(item), method: :delete, class: "danger",
+                            form: { data: { turbo_confirm: "Видалити заявку разом із нотатками?" } } %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% @requests.each do |item| %>
+    <dialog id="request-dialog-<%= item.id %>" class="promo-dialog request-dialog">
+      <h2><%= item.name.presence || "Заявка" %> · <%= item.phone %></h2>
+      <p class="muted-text">Залишено <%= item.created_at.strftime("%d.%m.%Y о %H:%M") %></p>
+
+      <h3>Нотатки</h3>
+      <% if item.notes.empty? %>
+        <p class="muted-text">Нотаток поки немає.</p>
+      <% else %>
+        <ul class="notes">
+          <% item.notes.sort_by(&:created_at).reverse_each do |note| %>
+            <li>
+              <div class="note-meta">
+                <span><%= note.created_at.strftime("%d.%m.%Y %H:%M") %></span>
+                <%= button_to "Видалити", admin_callback_request_note_path(item, note), method: :delete,
+                              class: "link-danger",
+                              form: { data: { turbo_confirm: "Видалити нотатку?" } } %>
+              </div>
+              <p class="note-text"><%= note.body %></p>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <%= form_with url: admin_callback_request_notes_path(item), scope: :callback_note do |f| %>
+        <%= f.text_area :body, rows: 3, placeholder: "Нова нотатка...", required: true %>
+        <div class="actions" style="margin-top: 12px;">
+          <%= f.submit "Додати нотатку" %>
+          <button type="button" class="secondary" data-dialog-close>Закрити</button>
+        </div>
+      <% end %>
+    </dialog>
+  <% end %>
+<% end %>

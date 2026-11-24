@@ -1,0 +1,54 @@
+<%= render "admin/nav" %>
+<h1>Керування товарами</h1>
+
+<div class="toolbar">
+  <%= form_with url: admin_products_path, method: :get do |f| %>
+    <%= f.text_field :q, value: params[:q], placeholder: "Пошук товарів..." %>
+    <%= f.submit "Знайти" %>
+  <% end %>
+  <%= link_to "+ Додати товар", new_admin_product_path, class: "btn" %>
+</div>
+
+<table class="cart-table">
+  <thead>
+    <tr><th>Товар</th><th>Виробник</th><th>Ціна</th><th>Залишок</th><th>Статус</th><th></th></tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr class="<%= 'muted-row' unless product.active %>">
+        <td>
+          <div class="cell-product">
+            <% if product.image_url.present? %>
+              <img class="order-thumb" src="<%= product.image_url %>" alt="">
+            <% else %>
+              <span class="order-thumb empty"></span>
+            <% end %>
+            <div>
+              <strong><%= product.name %></strong>
+              <small class="muted-text"><%= product.model_number %></small>
+            </div>
+          </div>
+        </td>
+        <td><%= product.manufacturer %></td>
+        <td><%= number_with_delimiter(product.price.to_i, delimiter: " ") %> грн</td>
+        <td>
+          <span class="tag <%= 'danger' if product.stock.to_i <= 3 %>"><%= product.stock %></span>
+        </td>
+        <td>
+          <% if product.active %>
+            <span class="tag on">Активний</span>
+          <% else %>
+            <span class="tag">Прихований</span>
+          <% end %>
+        </td>
+        <td>
+          <div class="actions">
+            <%= link_to "Редагувати", edit_admin_product_path(product) %>
+            <%= button_to (product.active ? "Приховати" : "Показати"),
+                          toggle_admin_product_path(product), method: :patch, class: "secondary" %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
