@@ -20,7 +20,7 @@ gem "jbuilder"
 # gem "redis", ">= 4.0.1"
 
 gem "rails", "~> 7.2.3"
-gem "json", "~> 2.9"
+gem "json", "~> 3.2"
 gem "rails-i18n", "~> 7.0"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
